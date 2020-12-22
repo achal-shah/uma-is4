@@ -17,10 +17,23 @@ namespace IdentityServer
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
-            { };
+            {
+                new ApiScope("uma_protection", "Protection API")
+            };
 
         public static IEnumerable<Client> Clients =>
             new Client[] 
-            { };
+            {
+                new Client
+                {
+                    ClientId = "ResourceServer",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets = 
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowedScopes = { "uma_protection" }
+                }
+            };
     }
 }
