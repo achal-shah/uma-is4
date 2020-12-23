@@ -5,7 +5,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Uma.IdentityServer4;
+using Uma.IdentityServer4.Endpoints;
+using Uma.IdentityServer4.ResponseHandling;
 
 namespace IdentityServer
 {
@@ -34,6 +38,9 @@ namespace IdentityServer
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
+
+            builder.Services.TryAddTransient<IUmaConfigurationResponseGenerator, UmaConfigurationResponseGenerator>();
+            builder.AddEndpoint<UmaConfigurationEndpoint>(EndpointNames.UmaConfiguration, ProtocolRoutePaths.UmaConfiguration);
         }
 
         public void Configure(IApplicationBuilder app)
