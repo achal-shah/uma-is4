@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,24 @@ namespace IdentityServer
             // uncomment, if you want to add an MVC-based UI
             //services.AddControllersWithViews();
 
+            services.AddAuthentication()
+                .AddLocalApi(ProtectionApi.AuthenticationScheme, options =>
+                {
+                    options.ExpectedScope = "uma_protection";
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(ProtectionApi.PolicyName, policy =>
+                {
+                    policy.AddAuthenticationSchemes(ProtectionApi.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("scope", "uma_protection");
+                });
+            });
+
+            services.AddControllers();
+
             var builder = services.AddIdentityServer(options =>
             {
                 // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
@@ -39,6 +58,7 @@ namespace IdentityServer
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
 
+            // For the well known uma configuration
             builder.Services.TryAddTransient<IUmaConfigurationResponseGenerator, UmaConfigurationResponseGenerator>();
             builder.AddEndpoint<UmaConfigurationEndpoint>(EndpointNames.UmaConfiguration, ProtocolRoutePaths.UmaConfiguration);
         }
@@ -52,7 +72,7 @@ namespace IdentityServer
 
             // uncomment if you want to add MVC
             //app.UseStaticFiles();
-            //app.UseRouting();
+            app.UseRouting();
             
             app.UseIdentityServer();
 
@@ -62,6 +82,12 @@ namespace IdentityServer
             //{
             //    endpoints.MapDefaultControllerRoute();
             //});
+
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
