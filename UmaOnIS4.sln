@@ -7,9 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9D9FB4EF-FE7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "src\IdentityServer\IdentityServer.csproj", "{ACFBC789-8D1C-4CC7-AFE4-DE847D564A4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UmaForIdentityServer", "src\UmaForIS4\UmaForIdentityServer.csproj", "{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "src\Client\Client.csproj", "{A017C450-53F9-4FCA-A3C3-F431C93079EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "src\Client\Client.csproj", "{A017C450-53F9-4FCA-A3C3-F431C93079EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,18 +31,6 @@ Global
 		{ACFBC789-8D1C-4CC7-AFE4-DE847D564A4F}.Release|x64.Build.0 = Release|Any CPU
 		{ACFBC789-8D1C-4CC7-AFE4-DE847D564A4F}.Release|x86.ActiveCfg = Release|Any CPU
 		{ACFBC789-8D1C-4CC7-AFE4-DE847D564A4F}.Release|x86.Build.0 = Release|Any CPU
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}.Debug|x64.Build.0 = Debug|Any CPU
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}.Debug|x86.Build.0 = Debug|Any CPU
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}.Release|x64.ActiveCfg = Release|Any CPU
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}.Release|x64.Build.0 = Release|Any CPU
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}.Release|x86.ActiveCfg = Release|Any CPU
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F}.Release|x86.Build.0 = Release|Any CPU
 		{A017C450-53F9-4FCA-A3C3-F431C93079EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A017C450-53F9-4FCA-A3C3-F431C93079EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A017C450-53F9-4FCA-A3C3-F431C93079EA}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -63,7 +49,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ACFBC789-8D1C-4CC7-AFE4-DE847D564A4F} = {9D9FB4EF-FE79-4604-A289-6F490402998A}
-		{0D3C922B-0BB0-4B5B-A89D-71AEC2C63A1F} = {9D9FB4EF-FE79-4604-A289-6F490402998A}
 		{A017C450-53F9-4FCA-A3C3-F431C93079EA} = {9D9FB4EF-FE79-4604-A289-6F490402998A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
