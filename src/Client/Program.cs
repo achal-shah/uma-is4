@@ -27,7 +27,7 @@ namespace Client
                 ClientId = "ResourceServer",
                 ClientSecret = "secret",
                 //Scope = "api1"
-                Scope = "uma_protection"
+                Scope = "uma_protection",
             });
 
             if (tokenResponse.IsError)
