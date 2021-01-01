@@ -45,6 +45,8 @@ namespace MvcClient
                     options.ResponseType = "code";
 
                     options.SaveTokens = true;
+                    options.Scope.Add("uma_protection");
+                    options.Scope.Add("offline_access");
                 });
         }
 
