@@ -72,8 +72,8 @@ namespace MvcClient
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute()
-                        .RequireAuthorization();
+                endpoints.MapDefaultControllerRoute();
+                        //.RequireAuthorization();
             });
         }
     }
