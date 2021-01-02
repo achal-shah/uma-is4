@@ -7,11 +7,11 @@ using System.Collections.Generic;
 
 namespace IdentityServer.UmaAs.Models
 {
-    public class ResourceDescriptionStore : IResourceDescriptionStore
+    public class InMemoryResourceDescriptionStore : IResourceDescriptionStore
     {
         private readonly Dictionary<string, Dictionary<Guid, ResourceDescription>> resourceDescriptionsByUser;
 
-        public ResourceDescriptionStore()
+        public InMemoryResourceDescriptionStore()
         {
             resourceDescriptionsByUser = new Dictionary<string, Dictionary<Guid, ResourceDescription>>();
         }

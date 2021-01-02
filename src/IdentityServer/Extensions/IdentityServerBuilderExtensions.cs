@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IIdentityServerBuilder AddUmaInMemoryResources(this IIdentityServerBuilder builder)
         {
             builder.Services.TryAddTransient<IUmaConfigurationResponseGenerator, UmaConfigurationResponseGenerator>();
-            builder.Services.AddSingleton<IResourceDescriptionStore, ResourceDescriptionStore>();
+            builder.Services.AddSingleton<IResourceDescriptionStore, InMemoryResourceDescriptionStore>();
 
             return builder;
         }
