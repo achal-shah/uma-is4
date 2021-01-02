@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Achal Shah. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using IdentityServer.UmaAs.Contracts;
 using IdentityServer.UmaAs.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +18,8 @@ namespace IdentityServer.Controllers
     [Route("rs/resource_set")]
     public class ProtectionApiController : ControllerBase
     {
-        private ResourceDescriptionStore _store;
-        public ProtectionApiController(ResourceDescriptionStore store)
+        private IResourceDescriptionStore _store;
+        public ProtectionApiController(IResourceDescriptionStore store)
         {
             _store = store;
         }

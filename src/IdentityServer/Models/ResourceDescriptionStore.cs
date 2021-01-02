@@ -1,14 +1,15 @@
 ﻿// Copyright (c) Achal Shah. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using IdentityServer.UmaAs.Contracts;
 using System;
 using System.Collections.Generic;
 
 namespace IdentityServer.UmaAs.Models
 {
-    public class ResourceDescriptionStore
+    public class ResourceDescriptionStore : IResourceDescriptionStore
     {
-        private Dictionary<string, Dictionary<Guid, ResourceDescription>> resourceDescriptionsByUser;
+        private readonly Dictionary<string, Dictionary<Guid, ResourceDescription>> resourceDescriptionsByUser;
 
         public ResourceDescriptionStore()
         {
