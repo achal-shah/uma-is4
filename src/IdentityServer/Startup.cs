@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer.UmaAs.Models;
 using IdentityServer4;
 using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Builder;
@@ -63,6 +64,7 @@ namespace IdentityServer
             // For the well known uma configuration
             builder.Services.TryAddTransient<IUmaConfigurationResponseGenerator, UmaConfigurationResponseGenerator>();
             builder.AddEndpoint<UmaConfigurationEndpoint>(EndpointNames.UmaConfiguration, ProtocolRoutePaths.UmaConfiguration);
+            builder.Services.AddSingleton(new ResourceDescriptionStore());
         }
 
         public void Configure(IApplicationBuilder app)

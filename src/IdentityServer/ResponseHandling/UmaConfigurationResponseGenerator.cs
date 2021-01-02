@@ -1,14 +1,14 @@
-﻿using IdentityModel;
+﻿// Copyright (c) Achal Shah. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
+using IdentityModel;
 using IdentityServer4.Configuration;
-using IdentityServer4.Models;
 using IdentityServer4.ResponseHandling;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using IdentityServer4.Validation;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Uma.IdentityServer4.ResponseHandling
@@ -92,8 +92,8 @@ namespace Uma.IdentityServer4.ResponseHandling
                 { OidcConstants.Discovery.TokenEndpoint, baseUrl + ProtocolRoutePaths.Token },
                 { OidcConstants.Discovery.AuthorizationEndpoint, baseUrl + ProtocolRoutePaths.Authorize },
                 { OidcConstants.Discovery.IntrospectionEndpoint, baseUrl + ProtocolRoutePaths.Introspection },
-                { UmaConfigurationConstants.ResourceSetRegistrationEndpoint, baseUrl + ProtocolRoutePaths.ResourceSetRegistration },
-                { UmaConfigurationConstants.PermissionRegistrationEndpoint, baseUrl + ProtocolRoutePaths.PermissionRegistration },
+                { UmaConfigurationConstants.ResourceRegistrationEndpoint, baseUrl + ProtocolRoutePaths.ResourceSetRegistration },
+                { UmaConfigurationConstants.PermissionEndpoint, baseUrl + ProtocolRoutePaths.PermissionRegistration },
                 { UmaConfigurationConstants.RptEndpoint, baseUrl + ProtocolRoutePaths.ResourceProtectionToken },
             };
 
