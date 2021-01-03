@@ -1,12 +1,15 @@
 ﻿// Copyright (c) Achal Shah. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using CommonLib;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MvcClient.Models;
 using ResourceServer;
+using ResourceServer.Models;
+using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -22,14 +25,45 @@ namespace MvcClient.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        private static readonly Uri authServerBaseUri = new Uri("https://localhost:5001/rs/resource_set/");
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            ResourceDescriptionsViewModel requestDescriptions = new ResourceDescriptionsViewModel();
+
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            var result = await client.GetAsync(authServerBaseUri);
+
+            if (result.IsSuccessStatusCode)
+            {
+                string idStringsJson = await result.Content.ReadAsStringAsync();
+                string[] resourceDescriptionIds = JsonSerializer.Deserialize<string[]>(idStringsJson);
+
+                foreach (string id in resourceDescriptionIds)
+                {
+                    Uri api = new Uri(authServerBaseUri, id);
+                    // Get the resource description
+                    result = await client.GetAsync(api);
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var rdJson = await result.Content.ReadAsStringAsync();
+                        ResourceDescriptionDto rdDto = JsonSerializer.Deserialize<ResourceDescriptionDto>(rdJson);
+
+                        requestDescriptions.RequestDescriptions.Add(rdDto);
+                    }
+                }
+            }
+
+            return View(requestDescriptions);
         }
 
         public IActionResult Privacy()
@@ -63,7 +97,7 @@ namespace MvcClient.Controllers
                 Type = "TestResourceType"
             };
             StringContent content = new StringContent(JsonSerializer.Serialize(rd), Encoding.UTF8, MediaTypeNames.Application.Json);
-            var result = await client.PostAsync("https://localhost:5001/rs/resource_set", content);
+            var result = await client.PostAsync(authServerBaseUri, content);
 
             var returnedContent = result.Content;
 

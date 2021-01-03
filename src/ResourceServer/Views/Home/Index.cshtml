@@ -2,9 +2,25 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@model ResourceServer.Models.ResourceDescriptionsViewModel
+ 
+<div>
+    <h2>Resource Descriptions</h2>
+    <table id="resourcedescriptions">
+        <tbody>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">ID</th>
+            </tr>
+            @foreach (var rdDto in Model.RequestDescriptions)
+            {
+                <tr>
+                    <td>@rdDto.Name</td>
+                    <td>@rdDto.Id</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
 @using Microsoft.AspNetCore.Authentication
@@ -21,10 +37,10 @@
 
 <h2>Properties</h2>
 
-<dl>
+@*<dl>
     @foreach (var prop in (await Context.AuthenticateAsync()).Properties.Items)
     {
         <dt>@prop.Key</dt>
         <dd>@prop.Value</dd>
     }
-</dl>
+</dl>*@

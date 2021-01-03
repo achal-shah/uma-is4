@@ -1,14 +1,15 @@
 ﻿// Copyright (c) Achal Shah. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using CommonLib;
-using System;
 using System.Text.Json.Serialization;
 
-namespace IdentityServer.UmaAs.Models
+namespace CommonLib
 {
-    public class ResourceDescription
+    public class ResourceDescriptionDto
     {
+        [JsonPropertyName("_id")]
+        public string Id { get; set; }
+
         [JsonPropertyName("resource_scopes")]
         public string[] ResourceScopes { get; set; }
 
@@ -23,18 +24,5 @@ namespace IdentityServer.UmaAs.Models
 
         [JsonPropertyName("type")]
         public string Type { get; set; }
-
-        public ResourceDescriptionDto ToDto(Guid id)
-        {
-            return new ResourceDescriptionDto
-            {
-                Id = id.ToString(),
-                ResourceScopes = this.ResourceScopes,
-                Description = this.Description,
-                IconUri = this.IconUri,
-                Name = this.Name,
-                Type = this.Type
-            };
-        }
     }
 }

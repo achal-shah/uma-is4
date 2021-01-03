@@ -6,6 +6,7 @@ using IdentityServer.UmaAs.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Text.Json;
@@ -15,7 +16,6 @@ namespace IdentityServer.Controllers
 {
     [ApiController]
     [Authorize(ProtectionApi.PolicyName)]
-    [Route("rs/resource_set")]
     public class ProtectionApiController : ControllerBase
     {
         private IResourceDescriptionStore _store;
@@ -24,13 +24,33 @@ namespace IdentityServer.Controllers
             _store = store;
         }
 
-        [Route("rs/resource_set/{id}")]
-        public IActionResult Get(string id)
+        [Route("rs/resource_set")]
+        public IActionResult Get()
         {
-            ResourceDescription rd = _store.GetResourceDescription(User.Claims.Where(c => c.Type == "sub").FirstOrDefault().Value, new Guid(id));
-            return new JsonResult(JsonSerializer.Serialize(rd));
+            IDictionary<Guid, ResourceDescription> rds = _store.GetResourceDescriptions(User.Claims.Where(c => c.Type == "sub").FirstOrDefault().Value);
+            if (rds != null)
+            {
+                return new JsonResult(rds.Keys);
+            }
+            else
+            {
+                return new NotFoundResult();
+            }
         }
 
+        [Route("rs/resource_set/{id}")]
+        public IActionResult Get(Guid id)
+        {
+            ResourceDescription rd = _store.GetResourceDescription(User.Claims.Where(c => c.Type == "sub").FirstOrDefault().Value, id);
+            if (rd != null)
+            {
+                return new JsonResult(rd.ToDto(id));
+            }
+            else return new NotFoundResult();
+        }
+
+        [HttpPost]
+        [Route("rs/resource_set")]
         public IActionResult Post([FromBody] ResourceDescription resourceDescriptionJson)
         {
             string domainName = HttpContext.Request.Host.ToUriComponent();

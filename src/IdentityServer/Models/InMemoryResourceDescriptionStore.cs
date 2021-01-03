@@ -37,5 +37,17 @@ namespace IdentityServer.UmaAs.Models
                 return resourceDescriptionsByUser[userId].GetValueOrDefault(descriptionId);
             }
         }
+
+        public IDictionary<Guid, ResourceDescription> GetResourceDescriptions(string userId)
+        {
+            if (!resourceDescriptionsByUser.ContainsKey(userId))
+            {
+                return null;
+            }
+            else
+            {
+                return resourceDescriptionsByUser[userId];
+            }
+        }
     }
 }
