@@ -3,44 +3,54 @@
 }
 
 @model ResourceServer.Models.ResourceDescriptionsViewModel
- 
-<div>
-    <h2>Resource Descriptions</h2>
-    <table id="resourcedescriptions">
-        <tbody>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">ID</th>
-            </tr>
-            @foreach (var rdDto in Model.RequestDescriptions)
-            {
-                <tr>
-                    <td>@rdDto.Name</td>
-                    <td>@rdDto.Id</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
 
-@using Microsoft.AspNetCore.Authentication
+    <article>
+        <section>
+            <h2>Resource Descriptions</h2>
 
-<h2>Claims</h2>
+            <div>
+                <table id="resourcedescriptions">
+                    <tbody>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">ID</th>
+                        </tr>
+                        @foreach (var rdDto in Model.RequestDescriptions)
+                        {
+                            <tr>
+                                <td>@rdDto.Name</td>
+                                <td>@rdDto.Id</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-<dl>
-    @foreach (var claim in User.Claims)
-    {
-        <dt>@claim.Type</dt>
-        <dd>@claim.Value</dd>
-    }
-</dl>
+            <div>
 
-<h2>Properties</h2>
+                @using Microsoft.AspNetCore.Authentication
 
-@*<dl>
-    @foreach (var prop in (await Context.AuthenticateAsync()).Properties.Items)
-    {
-        <dt>@prop.Key</dt>
-        <dd>@prop.Value</dd>
-    }
-</dl>*@
+                <h2>Claims</h2>
+
+                <dl>
+                    @foreach (var claim in User.Claims)
+                    {
+                        <dt>@claim.Type</dt>
+                        <dd>@claim.Value</dd>
+                    }
+                </dl>
+            </div>
+
+            <div>
+                <h2>Properties</h2>
+
+                <dl>
+                    @foreach (var prop in (await Context.AuthenticateAsync()).Properties.Items)
+                    {
+                        <dt>@prop.Key</dt>
+                        <dd>@prop.Value</dd>
+                    }
+                </dl>
+            </div>
+        </section>
+    </article>
