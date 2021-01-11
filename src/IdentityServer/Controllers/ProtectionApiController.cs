@@ -77,5 +77,36 @@ namespace IdentityServer.Controllers
                 return BadRequest($"Not supported: {ns.Message}");
             }
         }
+
+        [HttpPatch]
+        [Route("rs/resource_set/{id}")]
+        public IActionResult Patch(Guid id, [FromBody] ResourceDescription resourceDescriptionJson)
+        {
+            string userId = User.Claims.Where(c => c.Type == "sub").FirstOrDefault().Value;
+
+            bool deleted = _store.DeleteDescription(userId, id);
+
+            if (deleted)
+            {
+                _store.AddDescription(userId, id, resourceDescriptionJson);
+                return new JsonResult(new { _id = id });
+            }
+            else return new NotFoundResult();
+        }
+
+        [HttpDelete]
+        [Route("rs/resource_set/{id}")]
+        public IActionResult Delete(Guid id, [FromBody] ResourceDescription resourceDescriptionJson)
+        {
+            string userId = User.Claims.Where(c => c.Type == "sub").FirstOrDefault().Value;
+
+            bool deleted = _store.DeleteDescription(userId, id);
+
+            if (deleted)
+            {
+                return new NoContentResult();
+            }
+            else return new NotFoundResult();
+        }
     }
 }
