@@ -82,6 +82,11 @@ namespace MvcClient.Controllers
             return SignOut("Cookies", "oidc");
         }
 
+        public IActionResult CreateResourceDescription()
+        {
+            return View(new CreateResourceDescriptionViewModel());
+        }
+
         public async Task<IActionResult> CallProtectionApi()
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
