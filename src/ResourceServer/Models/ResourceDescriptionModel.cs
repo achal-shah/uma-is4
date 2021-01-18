@@ -3,9 +3,9 @@
 
 using System.Text.Json.Serialization;
 
-namespace ResourceServer
+namespace ResourceServer.Models 
 {
-    public class ResourceDescription
+    public class ResourceDescriptionModel
     {
         [JsonPropertyName("resource_scopes")]
         public string[] ResourceScopes { get; set; }

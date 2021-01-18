@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ResourceServer;
+using ResourceServer.Contracts;
 
 namespace MvcClient
 {
@@ -48,6 +50,8 @@ namespace MvcClient
                     options.Scope.Add("uma_protection");
                     options.Scope.Add("offline_access");
                 });
+
+            services.AddHttpClient<IProtectionApiClient, ProtectionApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

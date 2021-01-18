@@ -18,7 +18,7 @@ namespace IdentityServer.Controllers
     [Authorize(ProtectionApi.PolicyName)]
     public class ProtectionApiController : ControllerBase
     {
-        private IResourceDescriptionStore _store;
+        private readonly IResourceDescriptionStore _store;
         public ProtectionApiController(IResourceDescriptionStore store)
         {
             _store = store;
@@ -57,7 +57,7 @@ namespace IdentityServer.Controllers
             try
             {
                 Guid id = Guid.NewGuid();
-                ResourceSetCreationResponse rs = new ResourceSetCreationResponse { Id = id, UserAccessPolicyUri = new Uri($"https://{domainName}/connect/permissionregister/{id.ToString()}") };
+                ResourceSetCreationResponse rs = new ResourceSetCreationResponse { Id = id, UserAccessPolicyUri = new Uri($"https://{domainName}/connect/permissionregister/{id}") };
                 _store.AddDescription(User.Claims.Where(c => c.Type == "sub").FirstOrDefault().Value, rs.Id, resourceDescriptionJson);
 
                 CreatedResult result = new CreatedResult(new Uri($"https://{domainName}/rs/resource_set/{rs.Id}"), rs);
@@ -96,7 +96,7 @@ namespace IdentityServer.Controllers
 
         [HttpDelete]
         [Route("rs/resource_set/{id}")]
-        public IActionResult Delete(Guid id, [FromBody] ResourceDescription resourceDescriptionJson)
+        public IActionResult Delete(Guid id)
         {
             string userId = User.Claims.Where(c => c.Type == "sub").FirstOrDefault().Value;
 

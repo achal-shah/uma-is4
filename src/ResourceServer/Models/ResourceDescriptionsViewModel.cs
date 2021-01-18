@@ -8,11 +8,6 @@ namespace ResourceServer.Models
 {
     public class ResourceDescriptionsViewModel
     {
-        public ResourceDescriptionsViewModel()
-        {
-            RequestDescriptions = new List<ResourceDescriptionDto>();
-        }
-
-        public List<ResourceDescriptionDto> RequestDescriptions { get; set; }
+        public IList<ResourceDescriptionDto> ResourceDescriptions { get; set; }
     }
 }
