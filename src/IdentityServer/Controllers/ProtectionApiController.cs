@@ -78,9 +78,9 @@ namespace IdentityServer.Controllers
             }
         }
 
-        [HttpPatch]
+        [HttpPut]
         [Route("rs/resource_set/{id}")]
-        public IActionResult Patch(Guid id, [FromBody] ResourceDescription resourceDescriptionJson)
+        public IActionResult Put(Guid id, [FromBody] ResourceDescription resourceDescriptionJson)
         {
             string userId = User.Claims.Where(c => c.Type == "sub").FirstOrDefault().Value;
 

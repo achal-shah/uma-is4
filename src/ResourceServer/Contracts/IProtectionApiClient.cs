@@ -27,5 +27,30 @@ namespace ResourceServer.Contracts
         /// <param name="accessToken">The access token to access the protection API.</param>
         /// <returns>The resource descriptions.</returns>
         Task<IList<ResourceDescriptionDto>> GetResourceDescriptionsAsync(string accessToken);
+
+        /// <summary>
+        /// Get the resource description.
+        /// </summary>
+        /// <param name="id">The description id.</param>
+        /// <param name="accessToken">The access token to access the protection API.</param>
+        /// <returns></returns>
+        Task<ResourceDescriptionDto> GetResourceDescriptionAsync(string id, string accessToken);
+
+        /// <summary>
+        /// Updates the resource description.
+        /// </summary>
+        /// <param name="id">The id of the resource description being updated.</param>
+        /// <param name="resourceDescription">The resource description to replace the original with.</param>
+        /// <param name="accessToken">The access token to access the protection API.</param>
+        /// <returns>The id of the updated description.</returns>
+        Task<string> UpdateResourceDescriptionAsync(string id, ResourceDescriptionModel resourceDescription, string accessToken);
+
+        /// <summary>
+        /// Deletes the resource description
+        /// </summary>
+        /// <param name="id">The id of the resource description being deleted.</param>
+        /// <param name="accessToken">The access token to access the protection API.</param>
+        /// <returns></returns>
+        Task DeleteResourceDescriptionAsync(string id, string accessToken);
     }
 }

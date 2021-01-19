@@ -45,6 +45,38 @@ namespace ResourceServer
         }
 
         /// <inheritdoc/>
+        public async Task DeleteResourceDescriptionAsync(string id, string accessToken)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            Uri api = new Uri(_remoteServiceBaseUri, id);
+            var result = await _httpClient.DeleteAsync(api);
+
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new ArgumentException($"{result.StatusCode}: {result.ReasonPhrase}");
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<ResourceDescriptionDto> GetResourceDescriptionAsync(string id, string accessToken)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            Uri api = new Uri(_remoteServiceBaseUri, id);
+            // Get the resource description
+            var result = await _httpClient.GetAsync(api);
+            if (result.IsSuccessStatusCode)
+            {
+                var rdJson = await result.Content.ReadAsStringAsync();
+                ResourceDescriptionDto rdDto = JsonSerializer.Deserialize<ResourceDescriptionDto>(rdJson);
+
+                return rdDto;
+            }
+            else return null;
+        }
+
+        /// <inheritdoc/>
         public async Task<IList<ResourceDescriptionDto>> GetResourceDescriptionsAsync(string accessToken)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
@@ -72,6 +104,27 @@ namespace ResourceServer
                 }
             }
             return resourceDescriptions;
+        }
+
+        /// <inheritdoc/>
+        public async Task<string> UpdateResourceDescriptionAsync(string id, ResourceDescriptionModel resourceDescription, string accessToken)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            StringContent content = new StringContent(JsonSerializer.Serialize(resourceDescription), Encoding.UTF8, MediaTypeNames.Application.Json);
+            var result = await _httpClient.PutAsync(_remoteServiceBaseUri, content);
+
+            if (result.IsSuccessStatusCode)
+            {
+                var returnedContent = await result.Content.ReadAsStringAsync();
+                dynamic idObject = JsonSerializer.Deserialize<object>(returnedContent);
+
+                return idObject._id;
+            }
+            else
+            {
+                throw new ArgumentException($"{result.StatusCode}: {result.ReasonPhrase}");
+            }
         }
     }
 }
