@@ -67,5 +67,16 @@ namespace ResourceServer.Controllers
 
             return new OkResult();
         }
+
+        [Route("ResourceDescription/Delete/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            await _protectionApiClient.DeleteResourceDescriptionAsync(id, accessToken);
+
+            return new RedirectResult("/");
+        }
     }
 }

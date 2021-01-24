@@ -57,7 +57,10 @@ else
         }
         else
         {
-            <p><input type="button" value="Update" onclick="grabAndSubmitTableData('@Model.Id')" /></p>
+            <p>
+                <input type="button" value="Update" onclick="grabAndSubmitTableData('@Model.Id')" />
+                <input type="button" value="Delete" onclick="location.href='/ResourceDescription/Delete/@Model.Id'" />
+            </p>
         }
 
         <script type="text/javascript">
