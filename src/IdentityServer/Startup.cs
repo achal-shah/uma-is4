@@ -1,11 +1,14 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// Copyright (c) Achal Shah. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
 
 
+using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Uma.IdentityServer4;
+using Uma.IdentityServer4.Endpoints;
 
 namespace IdentityServer
 {
@@ -21,19 +24,42 @@ namespace IdentityServer
         public void ConfigureServices(IServiceCollection services)
         {
             // uncomment, if you want to add an MVC-based UI
-            //services.AddControllersWithViews();
+            services.AddControllersWithViews();
+
+            services.AddAuthentication()
+                .AddLocalApi(ProtectionApi.AuthenticationScheme, options =>
+                {
+                    options.ExpectedScope = "uma_protection";
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(ProtectionApi.PolicyName, policy =>
+                {
+                    policy.AddAuthenticationSchemes(ProtectionApi.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("scope", "uma_protection");
+                });
+            });
+
+            services.AddControllers();
 
             var builder = services.AddIdentityServer(options =>
-            {
-                // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
-                options.EmitStaticAudienceClaim = true;
-            })
+                {
+                    // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
+                    options.EmitStaticAudienceClaim = true;
+                })
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients);
+                .AddInMemoryClients(Config.Clients)
+                .AddTestUsers(TestUsers.Users)
+                .AddUmaInMemoryResources();
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
+
+            // For the well known uma configuration
+            builder.AddEndpoint<UmaConfigurationEndpoint>(EndpointNames.UmaConfiguration, ProtocolRoutePaths.UmaConfiguration);
         }
 
         public void Configure(IApplicationBuilder app)
@@ -44,17 +70,17 @@ namespace IdentityServer
             }
 
             // uncomment if you want to add MVC
-            //app.UseStaticFiles();
-            //app.UseRouting();
+            app.UseStaticFiles();
+            app.UseRouting();
             
             app.UseIdentityServer();
 
             // uncomment, if you want to add MVC
-            //app.UseAuthorization();
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapDefaultControllerRoute();
-            //});
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
         }
     }
 }

@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model ResourceServer.Models.ResourceDescriptionsViewModel
+
+    <article>
+        <section>
+            <h2>Resource Descriptions</h2>
+
+            <div>
+                @if (Model.ResourceDescriptions.Count > 0)
+                {
+                    <table id="resourcedescriptions">
+                        <tbody>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">ID</th>
+                            </tr>
+                            @foreach (var rdDto in Model.ResourceDescriptions)
+                            {
+                                <tr>
+                                    <td><a href="/ResourceDescription/@rdDto.Id">@rdDto.Name</a></td>
+                                    <td>@rdDto.Id</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+
+                <div>
+                    <p></p>
+                    <a href="/ResourceDescription/Create">Add Resource Description</a>
+                    <p></p>
+                </div>
+            </div>
+
+            <div>
+
+                @using Microsoft.AspNetCore.Authentication
+
+                <h2>Claims</h2>
+
+                <dl>
+                    @foreach (var claim in User.Claims)
+                    {
+                        <dt>@claim.Type</dt>
+                        <dd>@claim.Value</dd>
+                    }
+                </dl>
+            </div>
+
+            <div>
+                <h2>Properties</h2>
+
+                <dl>
+                    @foreach (var prop in (await Context.AuthenticateAsync()).Properties.Items)
+                    {
+                        <dt>@prop.Key</dt>
+                        <dd>@prop.Value</dd>
+                    }
+                </dl>
+            </div>
+        </section>
+    </article>
