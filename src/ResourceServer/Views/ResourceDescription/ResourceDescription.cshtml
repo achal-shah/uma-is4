@@ -1,0 +1,98 @@
+﻿
+
+@model ResourceServer.Models.ResourceDescriptionViewModel
+
+@if (string.IsNullOrEmpty(Model.Id))
+{
+    ViewData["Title"] = "CreateResourceDescription";
+}
+else
+{
+    ViewData["Title"] = "ResourceDescription";
+}
+
+
+<article>
+    <section>
+        @if (string.IsNullOrEmpty(Model.Id))
+        {
+            <h2>Create Resource Description</h2>
+        }
+        else
+        {
+            <h2>Resource Description</h2>
+        }
+        
+
+    <div>
+        <table id="resourcedescription" style="width: 70%">
+            <tbody>
+                <tr>
+                    <th scope="row" style="width:20%">Scopes</th>
+                    <td class="editable-col" contenteditable="true" style="text-align:left">@Model.Scopes?.ToString()</td>
+                </tr>
+                <tr>
+                    <th scope="row" style="width:20%">Description</th>
+                    <td class="editable-col" contenteditable="true" style="text-align:left">@Model.Description</td>
+                </tr>
+                <tr>
+                    <th scope="row" style="width:20%">Name</th>
+                    <td class="editable-col" contenteditable="true" style="text-align:left">@Model.Name</td>
+                </tr>
+                <tr>
+                    <th scope="row" style="width:20%">Icon URI</th>
+                    <td class="editable-col" contenteditable="true" style="text-align:left">@Model.IconUri</td>
+                </tr>
+                <tr>
+                    <th scope="row" style="width:20%">Type</th>
+                    <td class="editable-col" contenteditable="true" style="text-align:left">@Model.ResourceType</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p />
+        @if (string.IsNullOrEmpty(Model.Id))
+        {
+            <p><input type="button" value="Submit" onclick="grabAndSubmitTableData('')" /></p>
+        }
+        else
+        {
+            <p><input type="button" value="Update" onclick="grabAndSubmitTableData('@Model.Id')" /></p>
+        }
+
+        <script type="text/javascript">
+            function grabAndSubmitTableData(id) {
+                var table = document.getElementById("resourcedescription");
+
+                console.log(table.innerHTML);
+
+                var resourceDescription = {
+                    Id: id,
+                    Scopes: table.rows.item(0).cells.item(1).textContent,
+                    Description: table.rows.item(1).cells.item(1).textContent,
+                    Name: table.rows.item(2).cells.item(1).textContent,
+                    IconUri: table.rows.item(3).cells.item(1).textContent,
+                    ResourceType: table.rows.item(4).cells.item(1).textContent
+                }
+
+                console.log(JSON.stringify(resourceDescription));
+
+                var response = fetch("../../ResourceDescription", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(resourceDescription)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.replace("../../");
+                        }
+                    })
+                    .catch(error => console.error('Unable to update item.', error));
+            }
+        </script>
+    </div>
+    </section>
+</article>
+

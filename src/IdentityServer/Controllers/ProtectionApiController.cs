@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Achal Shah. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using CommonLib;
 using IdentityServer.UmaAs.Contracts;
 using IdentityServer.UmaAs.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -89,7 +90,7 @@ namespace IdentityServer.Controllers
             if (deleted)
             {
                 _store.AddDescription(userId, id, resourceDescriptionJson);
-                return new JsonResult(new { _id = id });
+                return new JsonResult(new IdentifierDto { Id = id.ToString() });
             }
             else return new NotFoundResult();
         }

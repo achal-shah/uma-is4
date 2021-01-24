@@ -112,14 +112,15 @@ namespace ResourceServer
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             StringContent content = new StringContent(JsonSerializer.Serialize(resourceDescription), Encoding.UTF8, MediaTypeNames.Application.Json);
-            var result = await _httpClient.PutAsync(_remoteServiceBaseUri, content);
+            Uri api = new Uri(_remoteServiceBaseUri, id);
+            var result = await _httpClient.PutAsync(api, content);
 
             if (result.IsSuccessStatusCode)
             {
                 var returnedContent = await result.Content.ReadAsStringAsync();
-                dynamic idObject = JsonSerializer.Deserialize<object>(returnedContent);
+                IdentifierDto idObject = JsonSerializer.Deserialize<IdentifierDto>(returnedContent);
 
-                return idObject._id;
+                return idObject.Id;
             }
             else
             {

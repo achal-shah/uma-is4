@@ -8,7 +8,7 @@ namespace IdentityServer.UmaAs.Models
 {
     public class ResourceSetCreationResponse
     {
-        [JsonPropertyName("id")]
+        [JsonPropertyName("_id")]
         public Guid Id { get; set; }
 
         [JsonPropertyName("user_access_policy_uri")]

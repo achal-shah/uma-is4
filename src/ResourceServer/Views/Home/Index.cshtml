@@ -20,7 +20,7 @@
                             @foreach (var rdDto in Model.ResourceDescriptions)
                             {
                                 <tr>
-                                    <td>@rdDto.Name</td>
+                                    <td><a href="/ResourceDescription/@rdDto.Id">@rdDto.Name</a></td>
                                     <td>@rdDto.Id</td>
                                 </tr>
                             }
@@ -29,9 +29,9 @@
                 }
 
                 <div>
-                    <p/>
+                    <p></p>
                     <a href="/ResourceDescription/Create">Add Resource Description</a>
-                    <p/>
+                    <p></p>
                 </div>
             </div>
 
