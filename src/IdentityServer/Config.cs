@@ -19,37 +19,16 @@ namespace IdentityServer
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                new ApiScope("api1", "My API"),
                 new ApiScope("uma_protection", "Protection API"),
             };
 
         public static IEnumerable<Client> Clients =>
             new Client[] 
             {
-                new Client
-                {
-                    ClientId = "ResourceServer",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = 
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { "uma_protection", "api1" }
-                },
-                new Client
-                {
-                    ClientId = "client",
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { "api1" }
-                },
                 // interactive ASP.NET Core MVC client
                 new Client
                 {
-                    ClientId = "mvc",
+                    ClientId = "ResourceServer",
                     ClientSecrets = { new Secret("secret".Sha256()) },
 
                     AllowedGrantTypes = GrantTypes.Code,

@@ -42,7 +42,7 @@ namespace MvcClient
                     options.Scope.Add("profile");
                     options.GetClaimsFromUserInfoEndpoint = true;
 
-                    options.ClientId = "mvc";
+                    options.ClientId = "ResourceServer";
                     options.ClientSecret = "secret";
                     options.ResponseType = "code";
 
