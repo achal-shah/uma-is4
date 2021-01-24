@@ -20,6 +20,8 @@ namespace ResourceServer.Controllers
             _protectionApiClient = protectionApiClient;
         }
 
+        [Route("ResourceDescription/Create")]
+        [HttpGet]
         public IActionResult CreateResourceDescription()
         {
             return View(new CreateResourceDescriptionViewModel());

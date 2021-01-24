@@ -9,21 +9,30 @@
             <h2>Resource Descriptions</h2>
 
             <div>
-                <table id="resourcedescriptions">
-                    <tbody>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">ID</th>
-                        </tr>
-                        @foreach (var rdDto in Model.ResourceDescriptions)
-                        {
+                @if (Model.ResourceDescriptions.Count > 0)
+                {
+                    <table id="resourcedescriptions">
+                        <tbody>
                             <tr>
-                                <td>@rdDto.Name</td>
-                                <td>@rdDto.Id</td>
+                                <th scope="col">Name</th>
+                                <th scope="col">ID</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                            @foreach (var rdDto in Model.ResourceDescriptions)
+                            {
+                                <tr>
+                                    <td>@rdDto.Name</td>
+                                    <td>@rdDto.Id</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+
+                <div>
+                    <p/>
+                    <a href="/ResourceDescription/Create">Add Resource Description</a>
+                    <p/>
+                </div>
             </div>
 
             <div>
