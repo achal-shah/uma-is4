@@ -38,7 +38,6 @@ namespace IdentityServer
                 {
                     policy.AddAuthenticationSchemes(ProtectionApi.AuthenticationScheme);
                     policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("scope", "uma_protection");
                 });
             });
 

@@ -30,7 +30,7 @@ namespace IdentityServer.Controllers
         public IActionResult Get()
         {
             //IDictionary<Guid, ResourceDescription> rds = _store.GetResourceDescriptions(User.Claims.Where(c => c.Type == "sub").FirstOrDefault().Value);
-            IDictionary<Guid, ResourceDescription> rds = _store.GetResourceDescriptions(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            IDictionary<Guid, ResourceDescription> rds = _store.GetResourceDescriptions(User.FindFirstValue("sub"));
             if (rds != null)
             {
                 return new JsonResult(rds.Keys);
@@ -44,7 +44,7 @@ namespace IdentityServer.Controllers
         [Route("rs/resource_set/{id}")]
         public IActionResult Get(Guid id)
         {
-            ResourceDescription rd = _store.GetResourceDescription(User.FindFirstValue(ClaimTypes.NameIdentifier), id);
+            ResourceDescription rd = _store.GetResourceDescription(User.FindFirstValue("sub"), id);
             if (rd != null)
             {
                 return new JsonResult(rd.ToDto(id));
@@ -61,7 +61,7 @@ namespace IdentityServer.Controllers
             {
                 Guid id = Guid.NewGuid();
                 ResourceSetCreationResponse rs = new ResourceSetCreationResponse { Id = id, UserAccessPolicyUri = new Uri($"https://{domainName}/connect/permissionregister/{id}") };
-                _store.AddDescription(User.FindFirstValue(ClaimTypes.NameIdentifier), rs.Id, resourceDescriptionJson);
+                _store.AddDescription(User.FindFirstValue("sub"), rs.Id, resourceDescriptionJson);
 
                 CreatedResult result = new CreatedResult(new Uri($"https://{domainName}/rs/resource_set/{rs.Id}"), rs);
                 result.ContentTypes.Add(MediaTypeNames.Application.Json);
@@ -85,7 +85,7 @@ namespace IdentityServer.Controllers
         [Route("rs/resource_set/{id}")]
         public IActionResult Put(Guid id, [FromBody] ResourceDescription resourceDescriptionJson)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = User.FindFirstValue("sub");
 
             bool deleted = _store.DeleteDescription(userId, id);
 
@@ -101,7 +101,7 @@ namespace IdentityServer.Controllers
         [Route("rs/resource_set/{id}")]
         public IActionResult Delete(Guid id)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = User.FindFirstValue("sub");
 
             bool deleted = _store.DeleteDescription(userId, id);
 
